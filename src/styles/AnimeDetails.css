@@ -1,0 +1,274 @@
+/* AnimeDetails.css */
+
+.anime-details-container {
+  background-color: #111;
+  color: #fff;
+  padding-bottom: 40px;
+}
+
+.banner1 {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.anime-details {
+  padding: 0 40px;
+}
+
+.anime-main {
+  display: flex;
+  gap: 45px;
+  margin-bottom: 40px;
+  align-items: flex-start;
+}
+
+.anime-cover {
+  width: 220px;
+  border-radius: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.anime-cover::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  z-index: -1;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #ff0000,
+    #48ff00,
+    #f0f00a,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000);
+  background-size: 400% 400%;
+  animation: glow 8s linear infinite;
+  filter: blur(8px);
+  opacity: 0.9;
+}
+
+@keyframes glow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+.anime-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: -10px;
+}
+
+.anime-info h1 {
+  font-size: 32px;
+  color: #facc15;
+  margin-bottom: 10px;
+}
+
+.anime-tags {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.anime-tags span {
+  background-color: #222;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid #444;
+}
+
+.anime-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.watch-now,
+.add-list {
+  padding: 10px 20px;
+  border: none;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.watch-now {
+  background-color: gold;
+  color: black;
+}
+
+.add-list {
+  background-color: #333;
+  color: #facc15;
+}
+
+.anime-description {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #ccc;
+  max-width: 1000px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.anime-description::-webkit-scrollbar {
+  width: 6px;
+}
+
+.anime-description::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.anime-description::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
+
+
+.anime-trailer {
+  margin-top: 40px;
+}
+
+.trailer-heading {
+  margin-bottom: 10px;
+}
+
+.trailer {
+  text-align: left;
+  font-size: 20px;
+  color: #facc15;
+}
+
+.trailer-video {
+  display: flex;
+  justify-content: center;
+}
+
+.trailer-video iframe {
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+
+.anime-meta {
+  margin-top: 30px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.genre-pill {
+  background-color: #333;
+  color: #facc15;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-right: 8px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.anime-characters {
+  margin-top: 50px;
+}
+
+.anime-characters h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #facc15;
+}
+
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 20px;
+}
+
+.character-card {
+  background-color: #222;
+  padding: 16px;
+  border-radius: 8px;
+  color: #eee;
+  box-shadow: 0 0 8px #000;
+  text-align: center;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.character-img,
+.va-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #444;
+}
+
+.character-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+}
+
+.character-name {
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.voice-actor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ccc;
+}
+
+.anime-relations {
+  margin-top: 40px;
+}
+
+.anime-relations h3 {
+  margin-bottom: 15px;
+  color: #facc15;
+  font-size: 20px;
+}
+
+.relations-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.relation-button {
+  background-color: #facc15;
+  color: black;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.relation-button:hover {
+  background-color: #e6b800;
+}
