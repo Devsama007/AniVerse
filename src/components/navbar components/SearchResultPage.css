@@ -1,0 +1,50 @@
+.search-results-page {
+  padding: 24px;
+  background-color: #121212;
+  min-height: 100vh;
+
+}
+
+.search-results-page h2 {
+  margin-bottom: 16px;
+  color: #facc15;
+  font-weight: bold;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e91e63;
+  padding-bottom: 6px;
+}
+
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 36px;
+  margin-top: 20px;
+}
+
+.pagination-controls  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.pagination-controls button {
+  background-color: gold;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  color: black;
+  transition: all 0.3s ease;
+}
+
+.pagination-controls button:hover {
+  background-color: #ddae1f;
+}
+
+.page-number {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}

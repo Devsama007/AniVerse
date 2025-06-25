@@ -71,9 +71,34 @@
 }
 
 .anime-info h1 {
-  font-size: 32px;
-  color: #facc15;
-  margin-bottom: 10px;
+  background: linear-gradient(
+    to left,
+    #f5d76e 0%,      /* light gold */
+    #f4c542 20%,     /* deeper gold */
+    #d4af37 40%,     /* royal gold */
+    #f6e27f 50%,     /* champagne yellow highlight */
+    #c49102 60%,     /* antique gold (adds depth) */
+    #f2c94c 80%,     /* golden amber */
+    #f5d76e 100%     /* light gold again */
+  );
+  background-size: 250% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: goldSlide 5s linear infinite;
+
+  text-shadow:
+    0 0 2px rgba(212, 175, 55, 0.2),
+    0 0 4px rgba(244, 197, 66, 0.25),
+    0 0 8px rgba(212, 175, 55, 0.15);
+}
+
+/* Slow sliding shimmer animations */
+
+@keyframes goldSlide {
+  0% { background-position: -100% 0; }
+  100% { background-position: 100% 0; }
 }
 
 .anime-tags {
@@ -252,7 +277,7 @@
   font-size: 20px;
 }
 
-.relations-buttons {
+/* .relations-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -271,4 +296,32 @@
 
 .relation-button:hover {
   background-color: #e6b800;
+} */
+
+.relations-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.relation-button {
+  background: linear-gradient(135deg, #ffdd57, #facc15, #ffb300);
+  color: #111;
+  padding: 8px 18px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(255, 215, 0, 0.3);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.relation-button:hover {
+  transform: translateY(-2px) scale(1.03);
+  background: linear-gradient(135deg, #facc15, #ffd700);
+  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
 }

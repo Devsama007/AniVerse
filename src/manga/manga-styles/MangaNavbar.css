@@ -1,0 +1,91 @@
+@font-face {
+  font-family: 'Badaboom';
+  src: url('../../assets/Badaboom.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.manga-navbar {
+  background-color: #121212;
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 2px solid #facc15;
+}
+
+.manga-title {
+  font-family: 'Badaboom', sans-serif;
+  font-size: 50px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 1px;
+
+  background: linear-gradient(
+    to right,
+    #dcdcdc 0%,      /* light gray */
+    #b0b0b0 20%,     /* soft metal gray */
+    #a8a8a8 40%,     /* deeper silver */
+    #f0f0f0 50%,     /* silver highlight (not pure white) */
+    #9e9e9e 60%,     /* dark silver for contrast */
+    #c0c0c0 80%,     /* aluminum silver */
+    #dcdcdc 100%     /* back to light silver */
+  );
+  background-size: 250% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: silverSlide 5s linear infinite;
+
+  text-shadow:
+    0 0 2px rgba(192, 192, 192, 0.3),
+    0 0 4px rgba(230, 230, 230, 0.25),
+    0 0 8px rgba(180, 180, 180, 0.15);
+}
+
+
+.manga-title span {
+  background: linear-gradient(
+    to left,
+    #f5d76e 0%,      /* light gold */
+    #f4c542 20%,     /* deeper gold */
+    #d4af37 40%,     /* royal gold */
+    #f6e27f 50%,     /* champagne yellow highlight */
+    #c49102 60%,     /* antique gold (adds depth) */
+    #f2c94c 80%,     /* golden amber */
+    #f5d76e 100%     /* light gold again */
+  );
+  background-size: 250% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: goldSlide 5s linear infinite;
+
+  text-shadow:
+    0 0 2px rgba(212, 175, 55, 0.2),
+    0 0 4px rgba(244, 197, 66, 0.25),
+    0 0 8px rgba(212, 175, 55, 0.15);
+}
+
+/* Slow sliding shimmer animations */
+@keyframes silverSlide {
+  0% { background-position: -100% 0; }
+  100% { background-position: 100% 0; }
+}
+
+@keyframes goldSlide {
+  0% { background-position: -100% 0; }
+  100% { background-position: 100% 0; }
+}
+
+.manga-search {
+  padding: 8px 12px;
+  font-size: 14px;
+  width: 500px;
+  max-width: 80%;
+  border: none;
+  border-radius: 6px;
+  margin-top: 14px;
+}
+

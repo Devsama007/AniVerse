@@ -1,0 +1,39 @@
+.manga-search-results-page {
+  padding: 24px;
+  min-height: 100vh;
+  background-color: #121212;
+}
+
+.manga-search-results-page h2 {
+  color: #facc15;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 24px;
+  border-bottom: 2px solid #1976d2;
+  padding-bottom: 6px;
+}
+
+.manga-search-results-page h2 em {
+  color: #ffffff;
+  font-style: normal;
+}
+
+.manga-search-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 36px;
+  margin-top: 20px;
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.no-results-text {
+  color: #ddd;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 40px;
+}
+

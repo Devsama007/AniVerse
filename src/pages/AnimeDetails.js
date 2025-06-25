@@ -121,9 +121,9 @@ const AnimeDetails = () => {
       <div className="anime-details">
         <div className="anime-main">
 
-        <div className="anime-cover">
-          <img src={anime.coverImage.large} alt="cover" />  
-        </div>
+          <div className="anime-cover">
+            <img src={anime.coverImage.large} alt="cover" />
+          </div>
 
           <div className="anime-info">
             <h1>{anime.title.english || anime.title.romaji}</h1>
@@ -144,78 +144,78 @@ const AnimeDetails = () => {
 
 
         <div className="anime-meta">
-            <p><strong>Japanese:</strong> {anime.title.romaji}</p>
-            <p><strong>Episodes:</strong> {anime.episodes}</p>
-            <p><strong>Studios:</strong> {anime.studios.nodes.map((s) => s.name).join(", ")}</p>
-            <p><strong>Status:</strong> {anime.status}</p>
-            <p><strong>Score:</strong> {anime.averageScore} / 100</p>
-            <p><strong>Season:</strong> {anime.season} {anime.seasonYear}</p>
-            <p><strong>Start Date: </strong> {anime.startDate.day}/{anime.startDate.month}/{anime.startDate.year}</p>
-            <p><strong>End Date: </strong> 
-                {anime.endDate?.day 
-                    ? `${anime.endDate.day}/${anime.endDate.month}/${anime.endDate.year}`
-                    : "Ongoing"}
-            </p>
-            <p><strong>Genres:</strong> {anime.genres.map((g) => (
-              <span key={g} className="genre-pill">{g}</span>
-            ))}</p>
+          <p><strong>Japanese:</strong> {anime.title.romaji}</p>
+          <p><strong>Episodes:</strong> {anime.episodes}</p>
+          <p><strong>Studios:</strong> {anime.studios.nodes.map((s) => s.name).join(", ")}</p>
+          <p><strong>Status:</strong> {anime.status}</p>
+          <p><strong>Score:</strong> {anime.averageScore} / 100</p>
+          <p><strong>Season:</strong> {anime.season} {anime.seasonYear}</p>
+          <p><strong>Start Date: </strong> {anime.startDate.day}/{anime.startDate.month}/{anime.startDate.year}</p>
+          <p><strong>End Date: </strong>
+            {anime.endDate?.day
+              ? `${anime.endDate.day}/${anime.endDate.month}/${anime.endDate.year}`
+              : "Ongoing"}
+          </p>
+          <p><strong>Genres:</strong> {anime.genres.map((g) => (
+            <span key={g} className="genre-pill">{g}</span>
+          ))}</p>
         </div>
 
-{anime.trailer?.site === "youtube" && (
-  <div className="anime-trailer">
-    <div className="trailer-heading">
-      <h2 className="trailer">Official Trailer</h2>
-    </div>
-    <div className="trailer-video">
-      <iframe
-        width="560"
-        height="315"
-        src={`https://www.youtube.com/embed/${anime.trailer.id}`}
-        title="YouTube video player"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      ></iframe>
-    </div>
-  </div>
-)}
+        {anime.trailer?.site === "youtube" && (
+          <div className="anime-trailer">
+            <div className="trailer-heading">
+              <h2 className="trailer">Official Trailer</h2>
+            </div>
+            <div className="trailer-video">
+              <iframe
+                width="560"
+                height="315"
+                src={`https://www.youtube.com/embed/${anime.trailer.id}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        )}
 
-{anime.relations?.edges?.length > 0 ? (
-  <div className="anime-relations">
-    <h3>Related Anime</h3>
-    <div className="relations-buttons">
-      {anime.relations.edges.filter(({ relationType, node  }) => relationType !== "ADAPTATION" && node?.id && node?.title).map(({ node, relationType }) => (
-        <Link
-          to={`/anime/${node.id}`}
-          key={node.id}
-          className="relation-button"
-        >
-          {relationType}: {node.title.english || node.title.romaji}
-        </Link>
-      ))}
-    </div>
-  </div>
-) : (
-  <p>Loading related anime...</p>
-)}
+        {anime.relations?.edges?.length > 0 ? (
+          <div className="anime-relations">
+            <h3>Related Anime</h3>
+            <div className="relations-buttons">
+              {anime.relations.edges.filter(({ relationType, node }) => relationType !== "ADAPTATION" && node?.id && node?.title).map(({ node, relationType }) => (
+                <Link
+                  to={`/anime/${node.id}`}
+                  key={node.id}
+                  className="relation-button"
+                >
+                  {relationType}: {node.title.english || node.title.romaji}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <p>Loading related anime...</p>
+        )}
 
 
         <div className="anime-characters">
           <h3>Characters & Voice Actors</h3>
           <div className="character-grid">
             {anime.characters.edges.map(({ node, voiceActors }, idx) => (
-            <div key={idx} className="character-card">
+              <div key={idx} className="character-card">
                 <img src={node.image.large} alt={node.name.full} className="character-img" />
-             <div>
-                <p className="character-name">{node.name.full}</p>
-                {voiceActors[0] && (
-                  <div className="voice-actor">
-                    <img src={voiceActors[0].image.large} alt={voiceActors[0].name.full} className="va-img" />
-                    <span>{voiceActors[0].name.full}</span>
-                  </div>
-                )}
+                <div>
+                  <p className="character-name">{node.name.full}</p>
+                  {voiceActors[0] && (
+                    <div className="voice-actor">
+                      <img src={voiceActors[0].image.large} alt={voiceActors[0].name.full} className="va-img" />
+                      <span>{voiceActors[0].name.full}</span>
+                    </div>
+                  )}
+                </div>
               </div>
-             </div>
             ))}
           </div>
         </div>

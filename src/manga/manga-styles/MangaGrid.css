@@ -1,0 +1,168 @@
+@font-face {
+    font-family: 'Badaboom';
+      src: url('../../assets/Badaboom.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+}
+
+.manga-grid-container {
+  position: relative;
+  background-color: #111;
+  padding: 24px 60px;
+}
+
+.manga-section {
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.manga-section-title {
+  font-family: 'Badaboom', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #facc15; 
+  margin-bottom: 14px;
+  border-bottom: 2px solid #1976d2; 
+  padding-bottom: 6px;
+  letter-spacing: 2px;
+}
+
+.manga-scroll-grid {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 8px 0 12px 0;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+}
+
+.manga-scroll-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.anime-card.manga-card {
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+.anime-card.manga-card:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.manga-scroll-buttons {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: -30px;
+  top: 53%;
+  transform: translateY(-50%);
+  gap: 8px;
+  z-index: 10;
+}
+
+.scroll-btn {
+  width: 25px;
+  height: 100px;
+  background-color: #444;
+  border: 1px solid #242424;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+
+.scroll-btn:hover {
+  background-color: #333;
+}
+
+.explore-more-btn {
+  font-family: 'Badaboom', sans-serif;
+  letter-spacing: 2px;
+  position: relative;
+  background-color: transparent;
+  color: #fff;
+  text-decoration: 1px solid black;
+  font-weight: bold;
+  padding: 10px 25px;
+  font-size: 22px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 1;
+  background-image: linear-gradient(
+    60deg,
+    #ff0000,
+
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shineText 3s linear infinite;
+  overflow: hidden;
+}
+
+/* .explore-more-btn::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  z-index: -1;
+  background: linear-gradient(
+    60deg,
+    #ff0000,
+    #48ff00,
+    #e6fd18,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  background-size: 400% 400%;
+  filter: blur(10px);
+  border-radius: 10px;
+  opacity: 0.6;
+  animation: glowBorder 5s linear infinite;
+  border: 1px solid;
+} */
+
+@keyframes glowBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shineText {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.manga-grid-card:hover {
+  transform: scale(1.05);
+}
