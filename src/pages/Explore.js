@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import "../styles/Explore.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom"
+import loadingGif from "../assets/rikka-takanashi.gif";
 
 // Constants
 const sectionHeadings = {
@@ -75,9 +76,9 @@ const Explore = () => {
 
       const json = await res.json();
 
-    const filteredMedia = (json?.data?.Page?.media || []).filter(
-  (anime) => Array.isArray(anime.genres) && !anime.genres.includes("Hentai")
-);
+      const filteredMedia = (json?.data?.Page?.media || []).filter(
+        (anime) => Array.isArray(anime.genres) && !anime.genres.includes("Hentai")
+      );
 
 
       setAnimeList(filteredMedia);
@@ -85,7 +86,7 @@ const Explore = () => {
     } catch (err) {
       console.error("Error fetching data:", err);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 500);
     }
   }, [section]);
 
@@ -109,21 +110,24 @@ const Explore = () => {
       </div>
 
       {isLoading ? (
-        <p style={{ color: "#fff", textAlign: "center" }}>Loading...</p>
+        <div className="loading-container">
+          <img src={loadingGif} alt="Loading..." className="loading-gif" />
+          <p>Loading Please Wait...</p>
+        </div>
       ) : (
         <>
           <div className="explore-grid">
             {animeList.map((anime, idx) => (
 
-            <Link to={`/anime/${anime.id}`} className="card-link">
-              <Card
-                key={anime.id || idx}
-                index={(currentPage - 1) * 35 + idx + 1}
-                title={anime.title.english || anime.title.romaji}
-                image={anime.coverImage.large}
-                className="explore-glow"
-              />
-            </Link>
+              <Link to={`/anime/${anime.id}`} className="card-link">
+                <Card
+                  key={anime.id || idx}
+                  index={(currentPage - 1) * 35 + idx + 1}
+                  title={anime.title.english || anime.title.romaji}
+                  image={anime.coverImage.large}
+                  className="explore-glow"
+                />
+              </Link>
 
             ))}
           </div>

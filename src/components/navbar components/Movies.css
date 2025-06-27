@@ -102,3 +102,28 @@
   text-decoration: none;
   color: inherit;
 }
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+  margin-top: 30px;
+}
+
+.loading-gif {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+}
+
+.loading-container p {
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: 0 0 4px #000;
+}

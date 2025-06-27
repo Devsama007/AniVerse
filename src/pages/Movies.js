@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Card from "../components/Card";
 import "../components/navbar components/Movies.css";
 import { Link } from "react-router-dom"
+import loadingGif from "../assets/rikka-takanashi.gif";
 
 const MOVIES_QUERY = `
   query ($page: Int, $perPage: Int) {
@@ -44,7 +45,7 @@ const Movies = () => {
     } catch (err) {
       console.error("Error fetching movies:", err);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 500);
     }
   }, []);
 
@@ -57,20 +58,23 @@ const Movies = () => {
       <h2 className="movies-title">Anime Movies</h2>
 
       {isLoading ? (
-        <div className="loading-text">Loading...</div>
+        <div className="loading-container">
+          <img src={loadingGif} alt="Loading..." className="loading-gif" />
+          <p>Loading Please Wait...</p>
+        </div>
       ) : (
         <>
           <div className="movies-grid">
             {animeList.map((anime, idx) => (
-            <Link to={`/anime/${anime.id}`} className="card-link">
-              <Card
-                key={anime.id || idx}
-                index={(currentPage - 1) * 35 + idx + 1}
-                title={anime.title.english || anime.title.romaji}
-                image={anime.coverImage.large}
-                className="movies-glow"
-              />
-            </Link>
+              <Link to={`/anime/${anime.id}`} className="card-link">
+                <Card
+                  key={anime.id || idx}
+                  index={(currentPage - 1) * 35 + idx + 1}
+                  title={anime.title.english || anime.title.romaji}
+                  image={anime.coverImage.large}
+                  className="movies-glow"
+                />
+              </Link>
             ))}
           </div>
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./manga-styles/MangaDetails.css";
+import { Link } from "react-router-dom";
+import loadingGif from "../assets/rikka-takanashi.gif";
 
 const MangaDetails = () => {
   const { id } = useParams();
@@ -77,7 +79,7 @@ useEffect(() => {
     } catch (err) {
       console.error("Error fetching manga details:", err);
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 500);
     }
   };
 
@@ -85,7 +87,11 @@ useEffect(() => {
 }, [id]);
 
 
-  if (loading) return <div className="manga-loading">Loading manga...</div>;
+  if (loading) return <div className="loading-container">
+          <img src={loadingGif} alt="Loading..." className="loading-gif" />
+          <p>Loading Please Wait...</p>
+        </div>
+
   if (!manga) return <div className="manga-error">Manga not found.</div>;
 
   return (
@@ -106,7 +112,11 @@ useEffect(() => {
         <div className="manga-info">
           <h1>{manga.title.english || manga.title.romaji}</h1>
           <div className="manga-buttons">
-            <button>Read Now</button>
+
+            <Link to={`/manga/${manga.id}/read`}>
+            <button className="read-btn">Read Now</button>
+            </Link>
+            
             <button>Add to Watchlist</button>
           </div>
           <p className="manga-description">{manga.description?.replace(/<[^>]+>/g, '')}</p>

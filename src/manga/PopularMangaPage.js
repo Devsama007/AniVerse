@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
 import "./manga-styles/PopularMangaPage.css";
+import loadingGif from "../assets/rikka-takanashi.gif";
 
 const POPULAR_MANGA_QUERY = `
   query ($page: Int, $perPage: Int) {
@@ -42,7 +43,7 @@ const PopularMangaPage = () => {
     } catch (err) {
       console.error("Error fetching manga:", err);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 500);
     }
   }, []);
 
@@ -55,7 +56,10 @@ const PopularMangaPage = () => {
       <h2 className="popular-manga-title">Popular Manga</h2>
 
       {isLoading ? (
-        <div className="loading-text">Loading...</div>
+        <div className="loading-container">
+          <img src={loadingGif} alt="Loading..." className="loading-gif" />
+          <p>Loading Please Wait...</p>
+        </div>
       ) : (
         <>
           <div className="popular-manga-grid">
