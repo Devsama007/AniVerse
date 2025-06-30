@@ -9,7 +9,8 @@ import banner6 from "../assets/banner6.png";
 import banner7 from "../assets/banner7.png";
 import banner8 from "../assets/banner8.png";
 import "../styles/AnimeDetails.css";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import loadingGif from "../assets/rikka-takanashi.gif";
 
 const AnimeDetails = () => {
   const { id } = useParams();
@@ -113,7 +114,10 @@ const AnimeDetails = () => {
     fetchAnimeDetails();
   }, [id]);
 
-  if (!anime) return <div className="anime-details-loading">Loading...</div>;
+  if (!anime) return <div className="loading-container">
+          <img src={loadingGif} alt="Loading..." className="loading-gif" />
+          <p>Loading Please Wait...</p>
+        </div>;
 
   return (
     <div className="anime-details-container">

@@ -1,3 +1,7 @@
+body {
+  background-color: #0b0b0b;
+}
+
 .manga-details {
   background-color: #111;
   color: #fff;
@@ -215,7 +219,7 @@
 .manga-character-card p {
   font-size: 14px;
   font-weight: bold;
-  margin-bottom: 10px; /* 👈 Remove top margin */
+  margin-bottom: 10px; 
   padding-top: 4px;
   color: #eee;
 }
@@ -225,9 +229,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 500px;
-  margin-top: 30px;
-  background-color:#1a1a1a;
+  min-height: 100vh;         
+  background-color: #0b0b0b; 
+  padding: 0;
+  margin: 0;
 }
 
 .loading-gif {
@@ -239,9 +244,11 @@
 
 .loading-container p {
   color: white;
-  justify-content: center;
-  align-items: center;
   font-size: 18px;
   font-weight: bold;
   text-shadow: 0 0 4px #000;
+}
+
+.manga-error{
+  background-color:#1a1a1a;
 }

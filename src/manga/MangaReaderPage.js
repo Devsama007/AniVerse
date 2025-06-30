@@ -3,82 +3,70 @@ import { useParams, Link } from "react-router-dom";
 import "./manga-styles/MangaReaderPage.css";
 
 function MangaReaderPage() {
-  const { id: mangaId } = useParams();
+  const { id: anilistId } = useParams();
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [languageFilter, setLanguageFilter] = useState("all");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchFromMangaDex = async () => {
-      let all = [];
-      let offset = 0;
-      const limit = 100;
-      let batch = [];
-
-      do {
-        const url = new URL("https://api.mangadex.org/chapter");
-        url.searchParams.set("manga", mangaId);
-        url.searchParams.set("limit", limit);
-        url.searchParams.set("offset", offset);
-        url.searchParams.set("order[publishAt]", "desc");
-        // Remove this if you want only "en": url.searchParams.append("translatedLanguage[]", "en");
-
-        const res = await fetch(url);
-        const json = await res.json();
-        batch = json.data || [];
-        all = all.concat(batch.map(item => ({
-          id: item.id,
-          chapter: item.attributes.chapter || "Oneshot",
-          title: item.attributes.title || "",
-          language: item.attributes.translatedLanguage,
-          publishAt: item.attributes.publishAt,
-        })));
-        offset += batch.length;
-      } while (batch.length === limit);
-
-      return all;
-    };
-
-    const loadChapters = async () => {
+    const fetchChapters = async () => {
       setLoading(true);
-      const mdChapters = await fetchFromMangaDex();
-      // Placeholder for fallback on Comick: await fetchFromComick();
-      setChapters(mdChapters);
-      setLoading(false);
+      setError(null);
+
+      try {
+        const res = await fetch(`http://localhost:5000/api/manga/${anilistId}/chapters`);
+        if (!res.ok) {
+          throw new Error(`Server returned ${res.status}`);
+        }
+        const data = await res.json();
+        setChapters(data.chapters || []);
+      } catch (err) {
+        console.error("Error fetching chapters:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    loadChapters();
-  }, [mangaId]);
+    fetchChapters();
+  }, [anilistId]);
 
-  const languages = Array.from(new Set(chapters.map(c => c.language)));
+  const languages = Array.from(new Set(chapters.map((c) => c.language)));
 
   const filtered = languageFilter === "all"
     ? chapters
-    : chapters.filter(c => c.language === languageFilter);
+    : chapters.filter((c) => c.language === languageFilter);
 
   return (
     <div className="manga-reader-page">
       {loading ? (
         <p>Loading chapters…</p>
+      ) : error ? (
+        <p style={{ color: "red" }}>Error: {error}</p>
       ) : chapters.length > 0 ? (
         <>
           <div className="chapters-header">
-            <span>{filtered.length} chapters ({languageFilter === "all" ? "all languages" : languageFilter.toUpperCase()})</span>
+            <span>
+              {filtered.length} chapters ({languageFilter === "all" ? "all languages" : languageFilter.toUpperCase()})
+            </span>
             <select
               value={languageFilter}
-              onChange={e => setLanguageFilter(e.target.value)}
+              onChange={(e) => setLanguageFilter(e.target.value)}
             >
               <option value="all">All Languages</option>
-              {languages.map(lang => (
-                <option key={lang} value={lang}>{lang.toUpperCase()}</option>
+              {languages.map((lang) => (
+                <option key={lang} value={lang}>
+                  {lang.toUpperCase()}
+                </option>
               ))}
             </select>
           </div>
 
           <ul className="chapter-list">
-            {filtered.map((c, idx) => (
+            {filtered.map((c) => (
               <li key={c.id}>
-                <Link to={`/manga/${mangaId}/chapter/${c.id}`}>
+                <Link to={`/manga/${anilistId}/chapter/${c.id}`}>
                   <div className="chapter-info">
                     <div>
                       Ch. {c.chapter}

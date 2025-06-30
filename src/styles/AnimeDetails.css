@@ -1,4 +1,7 @@
 /* AnimeDetails.css */
+body {
+  background-color: #0b0b0b;
+}
 
 .anime-details-container {
   background-color: #111;
@@ -324,4 +327,29 @@
   transform: translateY(-2px) scale(1.03);
   background: linear-gradient(135deg, #facc15, #ffd700);
   box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;         
+  background-color: #0b0b0b; 
+  padding: 0;
+  margin: 0;
+}
+
+.loading-gif {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+}
+
+.loading-container p {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: 0 0 4px #000;
 }
