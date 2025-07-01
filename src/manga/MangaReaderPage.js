@@ -1,90 +1,105 @@
+// manga/MangaReaderPage.js
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  searchMangaByName,
+  getChaptersByMangaHID
+} from "./services/comickAPI";
 import "./manga-styles/MangaReaderPage.css";
 
-function MangaReaderPage() {
-  const { id: anilistId } = useParams();
+const MangaReaderPage = () => {
+  const { mangaTitle } = useParams();
   const [chapters, setChapters] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [chaptersPerPage] = useState(60);
   const [loading, setLoading] = useState(true);
-  const [languageFilter, setLanguageFilter] = useState("all");
-  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchChapters = async () => {
       setLoading(true);
-      setError(null);
-
       try {
-        const res = await fetch(`http://localhost:5000/api/manga/${anilistId}/chapters`);
-        if (!res.ok) {
-          throw new Error(`Server returned ${res.status}`);
-        }
-        const data = await res.json();
-        setChapters(data.chapters || []);
+        const hid = await searchMangaByName(mangaTitle);
+        if (!hid) throw new Error("No manga found");
+
+        const allChapters = await getChaptersByMangaHID(hid, "en");
+        setTotal(allChapters.length);
+        setChapters(allChapters);
       } catch (err) {
-        console.error("Error fetching chapters:", err);
-        setError(err.message);
+        console.error("Error:", err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchChapters();
-  }, [anilistId]);
+  }, [mangaTitle]);
 
-  const languages = Array.from(new Set(chapters.map((c) => c.language)));
+  const indexOfLast = currentPage * chaptersPerPage;
+  const indexOfFirst = indexOfLast - chaptersPerPage;
+  const currentChapters = chapters.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(chapters.length / chaptersPerPage);
 
-  const filtered = languageFilter === "all"
-    ? chapters
-    : chapters.filter((c) => c.language === languageFilter);
+  const handleClick = (chapter) => {
+    navigate(`/manga/${mangaTitle}/read/${chapter.hid}`);
+  };
 
   return (
-    <div className="manga-reader-page">
+    <div className="reader-page">
+      <h2>Chapters for: {mangaTitle}</h2>
+
       {loading ? (
-        <p>Loading chapters…</p>
-      ) : error ? (
-        <p style={{ color: "red" }}>Error: {error}</p>
-      ) : chapters.length > 0 ? (
+        <p className="loading">Loading chapters...</p>
+      ) : (
         <>
-          <div className="chapters-header">
-            <span>
-              {filtered.length} chapters ({languageFilter === "all" ? "all languages" : languageFilter.toUpperCase()})
-            </span>
-            <select
-              value={languageFilter}
-              onChange={(e) => setLanguageFilter(e.target.value)}
-            >
-              <option value="all">All Languages</option>
-              {languages.map((lang) => (
-                <option key={lang} value={lang}>
-                  {lang.toUpperCase()}
-                </option>
-              ))}
-            </select>
+          <div className="chapter-list">
+            {currentChapters.map((chap, idx) => (
+              <div
+                key={chap.hid}
+                className="chapter-row"
+                onClick={() => handleClick(chap)}
+              >
+                <div className="flag">{chap.lang.toUpperCase()}</div>
+                <div className="title">
+                  <strong>{chap.title || `Ch. ${chap.chap}`}</strong>
+                </div>
+                <div className="meta">
+                  <span>{chap.created_at ? new Date(chap.created_at).toDateString() : "Unknown"}</span>
+                </div>
+              </div>
+            ))}
           </div>
 
-          <ul className="chapter-list">
-            {filtered.map((c) => (
-              <li key={c.id}>
-                <Link to={`/manga/${anilistId}/chapter/${c.id}`}>
-                  <div className="chapter-info">
-                    <div>
-                      Ch. {c.chapter}
-                      {c.title && `: ${c.title}`}
-                      <small> [{c.language.toUpperCase()}]</small>
-                    </div>
-                    <small>{new Date(c.publishAt).toLocaleDateString()}</small>
-                  </div>
-                </Link>
-              </li>
+          <div className="pagination">
+            <button onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>
+              First
+            </button>
+            {[...Array(totalPages).keys()].slice(0, 7).map((n) => (
+              <button
+                key={n + 1}
+                className={currentPage === n + 1 ? "active" : ""}
+                onClick={() => setCurrentPage(n + 1)}
+              >
+                {n + 1}
+              </button>
             ))}
-          </ul>
+            <button
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={currentPage === totalPages}
+            >
+              Last
+            </button>
+          </div>
+
+          <div className="chapter-count">
+            Showing {indexOfFirst + 1} to {Math.min(indexOfLast, total)} of {total} items
+          </div>
         </>
-      ) : (
-        <p>No chapters found for this manga.</p>
       )}
     </div>
   );
-}
+};
 
 export default MangaReaderPage;
+

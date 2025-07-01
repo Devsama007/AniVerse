@@ -13,6 +13,7 @@ import PopularMangaPage from "./manga/PopularMangaPage";
 import MangaDetails from "./manga/MangaDetails";
 import MangaSearchResult from "./manga/manga-components/MangaSearchResult";
 import MangaReaderPage from "./manga/MangaReaderPage";
+import MangaView from "./manga/MangaView";
 
 function AppRoutes() {
   return (
@@ -29,7 +30,8 @@ function AppRoutes() {
       <Route path="/manga/popular" element={<PopularMangaPage />} />
       <Route path="/manga/:id" element={<MangaDetails />}/>
       <Route path="/manga/search/:searchQuery" element={<MangaSearchResult />} />
-      <Route path="/manga/:id/read" element={<MangaReaderPage />} />
+      <Route path="/manga/:mangaTitle/read" element={<MangaReaderPage />} />
+      <Route path="/manga/:mangaTitle/read/:chapterHid" element={<MangaView />} />
 
     </Routes>
       

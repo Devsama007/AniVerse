@@ -1,0 +1,27 @@
+/* manga-styles/MangaView.css */
+
+.manga-pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #0b0b0b;
+  min-height: 100vh;
+}
+
+.manga-page {
+  max-width: 100%;
+  width: 800px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.manga-loading,
+.manga-error {
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 40px;
+}
+

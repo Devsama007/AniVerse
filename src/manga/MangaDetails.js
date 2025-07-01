@@ -9,8 +9,8 @@ const MangaDetails = () => {
   const [manga, setManga] = useState(null);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  const query = `
+  useEffect(() => {
+    const query = `
     query ($id: Int) {
       Media(id: $id, type: MANGA) {
         id
@@ -65,34 +65,46 @@ useEffect(() => {
     }
   `;
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("https://graphql.anilist.co", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, variables: { id: parseInt(id) } })
-      });
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("https://graphql.anilist.co", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query, variables: { id: parseInt(id) } })
+        });
 
-      const json = await res.json();
-      setManga(json.data.Media);
-    } catch (err) {
-      console.error("Error fetching manga details:", err);
-    } finally {
-      setTimeout(() => setLoading(false), 500);
-    }
-  };
+        const json = await res.json();
+        setManga(json.data.Media);
+      } catch (err) {
+        console.error("Error fetching manga details:", err);
+      } finally {
+        setTimeout(() => setLoading(false), 500);
+      }
+    };
 
-  fetchData();
-}, [id]);
+    fetchData();
+  }, [id]);
 
 
   if (loading) return <div className="loading-container">
-          <img src={loadingGif} alt="Loading..." className="loading-gif" />
-          <p>Loading Please Wait...</p>
-        </div>
+    <img src={loadingGif} alt="Loading..." className="loading-gif" />
+    <p>Loading Please Wait...</p>
+  </div>
 
+  // Encoding manga titles
   if (!manga) return <div className="manga-error">Manga not found.</div>;
+
+  const normalizeTitle = (title) =>
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/gi, " ")
+      .trim()
+      .replace(/\s+/g, "%20");
+
+  // Usage:
+  const encodedTitle = normalizeTitle(manga.title.romaji || manga.title.english);
+
 
   return (
     <div className="manga-details">
@@ -113,10 +125,10 @@ useEffect(() => {
           <h1>{manga.title.english || manga.title.romaji}</h1>
           <div className="manga-buttons">
 
-            <Link to={`/manga/${manga.id}/read`}>
-            <button className="read-btn">Read Now</button>
+            <Link to={`/manga/${encodedTitle}/read`}>
+              <button className="read-btn">Read Now</button>
             </Link>
-            
+
             <button>Add to Watchlist</button>
           </div>
           <p className="manga-description">{manga.description?.replace(/<[^>]+>/g, '')}</p>
