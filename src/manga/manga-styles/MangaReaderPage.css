@@ -1,7 +1,7 @@
 /* manga-styles/MangaReaderPage.css */
 
 .reader-page {
-  background-color: #111827;
+  background-color: #111;
   color: #fff;
   padding: 20px;
   min-height: 100vh;
@@ -22,7 +22,7 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #2d3748;
+  background: #171c24;
   padding: 10px 15px;
   margin-bottom: 10px;
   border-radius: 6px;
@@ -52,31 +52,29 @@ h2 {
   color: #a0aec0;
 }
 
-.pagination {
-  margin-top: 25px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.pagination button {
+.pagination-controls button {
   background-color: #facc15;
   color: #111;
-  padding: 6px 12px;
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 5px;
   font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.pagination button.active {
+.pagination-controls button:hover {
   background-color: #eab308;
-  color: white;
 }
 
-.pagination button:disabled {
-  background-color: #777;
+.pagination-controls button:disabled {
+  background-color: #999;
   cursor: not-allowed;
+}
+
+.page-number {
+  color: white;
+  font-weight: bold;
 }
 
 .chapter-count {
@@ -86,8 +84,74 @@ h2 {
   text-align: center;
 }
 
-.loading {
+/* .loading {
   text-align: center;
   font-size: 18px;
   color: #facc15;
+} */
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+  margin-top: 30px;
+}
+
+.loading-gif {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+}
+
+.loading-container p {
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: 0 0 4px #000;
+}
+
+.lang-select-container {
+  margin-top: -50px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 12px;
+  color: white;
+  font-family: 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+}
+
+#lang-select {
+  margin-left: 8px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background-color: #3e4e69;
+  color: white;
+  border: 1px solid #2d3748;
+  font-size: 16px;
+}
+
+.select-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #4a5568;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.lang-flag {
+  width: 28px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.lang-select-container label {
+  margin-right: 8px;
+  font-size: 16px;
 }
