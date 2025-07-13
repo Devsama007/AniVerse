@@ -3,16 +3,17 @@ import { useParams } from "react-router-dom";
 import "./manga-styles/MangaDetails.css";
 import { Link } from "react-router-dom";
 import loadingGif from "../assets/rikka-takanashi.gif";
+import errorPng from "../assets/nao-tomori.png";
 
 const MangaDetails = () => {
-  const { id } = useParams();
+  const { id, title } = useParams();
   const [manga, setManga] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const query = `
-    query ($id: Int) {
-      Media(id: $id, type: MANGA) {
+useEffect(() => {
+  const query = `
+    query ($search: String, $id: Int) {
+      Media(id: $id, search: $search, type: MANGA) {
         id
         title {
           romaji
@@ -65,26 +66,31 @@ const MangaDetails = () => {
     }
   `;
 
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch("https://graphql.anilist.co", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query, variables: { id: parseInt(id) } })
-        });
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const variables = id
+        ? { id: parseInt(id) }
+        : { search: decodeURIComponent(title) };
 
-        const json = await res.json();
-        setManga(json.data.Media);
-      } catch (err) {
-        console.error("Error fetching manga details:", err);
-      } finally {
-        setTimeout(() => setLoading(false), 500);
-      }
-    };
+      const res = await fetch("https://graphql.anilist.co", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query, variables }),
+      });
 
-    fetchData();
-  }, [id]);
+      const json = await res.json();
+      setManga(json.data.Media);
+    } catch (err) {
+      console.error("Error fetching manga details:", err);
+    } finally {
+      setTimeout(() => setLoading(false), 500);
+    }
+  };
+
+  fetchData();
+}, [id, title]); 
+
 
 
   if (loading) return <div className="loading-container">
@@ -93,7 +99,10 @@ const MangaDetails = () => {
   </div>
 
   // Encoding manga titles
-  if (!manga) return <div className="manga-error">Manga not found.</div>;
+  if (!manga) return <div className="manga-error">
+    <img src={errorPng} alt="Manga Not Found..." className="error-png" />
+    <p>Manga Not Found</p>
+  </div>
 
   const normalizeTitle = (title) =>
     title

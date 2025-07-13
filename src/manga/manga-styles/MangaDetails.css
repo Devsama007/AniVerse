@@ -249,6 +249,27 @@ body {
   text-shadow: 0 0 4px #000;
 }
 
-.manga-error{
-  background-color:#1a1a1a;
+.manga-error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;         
+  background-color: #0b0b0b; 
+  padding: 0;
+  margin: 0;
+}
+
+.error-png {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+}
+
+.manga-error p {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: 0 0 4px #000;
 }
