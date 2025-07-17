@@ -1,0 +1,218 @@
+/* .register-form-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  background: rgba(0, 0, 0, 0.6);
+} */
+
+.register-form-video-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: 12px;
+}
+
+.register-background-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  /* Low opacity for subtle animation */
+  pointer-events: none;
+  transform: rotate(-90deg) scale(1.5);
+  transform-origin: center center;
+}
+
+.register-form {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: white;
+  font-family: sans-serif;
+  width: 100%;
+}
+
+.register-form h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: yellow;
+}
+
+.register-form label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ccc;
+}
+
+.register-form input[type="text"],
+.register-form input[type="email"],
+.register-form input[type="password"],
+.register-form input[type="confirmPassword"] {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.recaptcha-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1c1c1c;
+  border: 1px solid #444;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 16px 0;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.recaptcha-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recaptcha-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.recaptcha-image {
+  width: 50px;
+  height: auto;
+}
+
+.register-btn {
+  background-color: transparent;
+  color: #facc15;
+  padding: 10px 24px;
+  border: 2px solid gold;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-btn.loading {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.register-btn.success {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  color: white;
+}
+
+.checkmark {
+  font-size: 1.2rem;
+}
+
+.register-success {
+  margin-top: 12px;
+  color: #4caf50;
+  font-weight: bold;
+  animation: fadeIn 0.4s ease;
+}
+
+.register-btn:hover {
+  background-color: #eab308;
+  color: black;
+}
+
+.switch-auth {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.switch-auth span {
+  color: #ffd700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Firework animation after registering */
+/* .fireworks-wrapper {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.firework-burst {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  background: transparent;
+  border-radius: 50%;
+  animation: pop 1s ease-out forwards;
+}
+
+.firework-burst::before,
+.firework-burst::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow:
+    0 -30px #f87171,
+    21px -21px #60a5fa,
+    30px 0 #4ade80,
+    21px 21px #facc15,
+    0 30px #a78bfa,
+    -21px 21px #fb923c,
+    -30px 0 #818cf8,
+    -21px -21px #f472b6;
+  animation: explodeBurst 0.8s ease-out forwards;
+}
+
+@keyframes explodeBurst {
+  0% {
+    transform: scale(0.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+} */

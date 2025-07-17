@@ -279,7 +279,7 @@ const MangaView = () => {
     // ✅ Footer Watermark
     pdf.setFontSize(16);
     pdf.setTextColor(212, 175, 55);
-    pdf.text("AniVerse", pageWidth - 30, pageHeight - 10);
+    pdf.text("Downloaded by AniVerse", pageWidth - 30, pageHeight - 10);
 
     // ✅ 2. Now add actual manga pages
     for (let i = 0; i < images.length; i++) {
@@ -308,7 +308,7 @@ const MangaView = () => {
           // Watermark per page
           pdf.setTextColor(212, 175, 55);
           pdf.setFontSize(16);
-          pdf.text("AniVerse", imgWidthMM - 30, imgHeightMM - 10);
+          pdf.text("Downloaded by AniVerse", imgWidthMM - 30, imgHeightMM - 10);
 
           resolve();
         };
