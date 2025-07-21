@@ -175,8 +175,13 @@
   border-color: #eab308;
 }
 
+
 .login-button.loading {
   pointer-events: none;
+    background-color: #3deb43;
+  /* green */
+  color: black;
+  border-color: #eab308;
 }
 
 /* .spinner {

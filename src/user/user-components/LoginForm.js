@@ -34,7 +34,7 @@ const LoginForm = ({ onSubmit, switchToRegister, onClose, switchToForgotPassword
 
             const storage = rememberMe ? localStorage : sessionStorage;
             storage.setItem("token", data.token);
-
+            storage.setItem("user", JSON.stringify(data.user));
             setIsSuccess(true);
 
             // ✅ Wait for animation then close the popup
