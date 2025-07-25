@@ -18,6 +18,13 @@ const addToHistory = async (req, res) => {
     // Remove if already exists
     user[historyKey] = user[historyKey].filter((entry) => entry.id !== item.id);
 
+    // Add new item with timestamp
+    const newEntry = {
+      ...item,
+      timestamp: new Date(), // ⏱️
+    };
+
+
     // Add to beginning
     user[historyKey].unshift(item);
 
@@ -38,6 +45,20 @@ const getUserHistory = async (req, res) => {
   try {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: "User not found" });
+
+
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 3); // 3 days ago
+
+    // Filter old entries
+    user.animeHistory = (user.animeHistory || []).filter(
+      (entry) => new Date(entry.timestamp) > cutoff
+    );
+    user.mangaHistory = (user.mangaHistory || []).filter(
+      (entry) => new Date(entry.timestamp) > cutoff
+    );
+
+    await user.save(); // save cleaned-up data
 
     res.json({
       animeHistory: user.animeHistory || [],

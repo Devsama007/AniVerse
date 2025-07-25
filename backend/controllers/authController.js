@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const sendWelcomeEmail = require("../utils/mailer"); // ✅ Import mailer
 
 exports.register = async (req, res) => {
   try {
@@ -8,7 +9,8 @@ exports.register = async (req, res) => {
 
     // Check for existing user
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ msg: "Email already exists" });
+    if (existingUser)
+      return res.status(400).json({ msg: "Email already exists" });
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -20,6 +22,14 @@ exports.register = async (req, res) => {
     });
 
     await newUser.save();
+
+    // ✅ Send welcome email (non-blocking)
+    try {
+      await sendWelcomeEmail(email, username);
+    } catch (emailErr) {
+      console.error("Error sending welcome email:", emailErr.message);
+    }
+
     res.status(201).json({ msg: "User registered successfully!" });
   } catch (err) {
     res.status(500).json({ msg: "Server error", error: err.message });
@@ -36,13 +46,10 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
-    // ✅ Generate JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
 
-    // TEMPORARY: debug log
-    console.log("JWT_SECRET on login:", process.env.JWT_SECRET);
-
-    // Later, generate JWT here
     res.status(200).json({ msg: "Login successful", token, user });
   } catch (err) {
     res.status(500).json({ msg: "Server error", error: err.message });
@@ -53,14 +60,10 @@ exports.resetPassword = async (req, res) => {
   try {
     const { email, newPassword } = req.body;
 
-    // Check if user with email exists
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ msg: "User not found" });
 
-    // Hash the new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    // Update user's password
     user.password = hashedPassword;
     await user.save();
 

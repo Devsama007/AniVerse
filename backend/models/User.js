@@ -32,20 +32,28 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  animeHistory: [
-    {
-      id: String,
-      title: String,
-      image: String,
-    }
-  ],
-  mangaHistory: [
-    {
-      id: String,
-      title: String,
-      image: String,
-    }
-  ]
+animeHistory: [
+  {
+    id: String,
+    title: String,
+    image: String,
+    timestamp: {
+      type: Date,
+      default: Date.now,
+    },
+  }
+],
+mangaHistory: [
+  {
+    id: String,
+    title: String,
+    image: String,
+    timestamp: {
+      type: Date,
+      default: Date.now,
+    },
+  }
+],
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);
