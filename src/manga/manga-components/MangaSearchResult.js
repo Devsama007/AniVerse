@@ -61,6 +61,8 @@ const MangaSearchResult = () => {
                 title={manga.title.english || manga.title.romaji}
                 image={manga.coverImage.large}
                 className="grid-glow"
+                id={manga.id} // 🔥 this is essential
+                type="manga"
               />
             </Link>
           ))

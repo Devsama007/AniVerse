@@ -1,0 +1,132 @@
+/* src/components/ImageCropper.css */
+.image-cropper-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9); /* Dark overlay */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.cropper-container {
+  position: relative;
+  width: 90%; /* Adjust as needed */
+  max-width: 500px; /* Max width for cropper area */
+  height: 60vh; /* Adjust height as needed */
+  background: #333;
+  overflow: hidden; /* Important for react-easy-crop */
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  width: 90%;
+  max-width: 500px;
+  color: white;
+}
+
+/* Styling for the native range input */
+.zoom-slider, .rotation-slider {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background-color: #555;
+  border-radius: 4px;
+  outline: none; /* Remove outline */
+  transition: opacity .2s;
+  opacity: 0.7;
+}
+
+.zoom-slider:hover, .rotation-slider:hover {
+  opacity: 1;
+}
+
+/* Thumb styling for Webkit browsers (Chrome, Safari) */
+.zoom-slider::-webkit-slider-thumb, .rotation-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: #4CAF50; /* Green thumb */
+  border-radius: 50%;
+  cursor: grab;
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.3);
+}
+
+/* Thumb styling for Firefox */
+.zoom-slider::-moz-range-thumb, .rotation-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: #4CAF50; /* Green thumb */
+  border-radius: 50%;
+  cursor: grab;
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.3);
+}
+
+/* Track styling for Webkit browsers */
+.zoom-slider::-webkit-slider-runnable-track, .rotation-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  background-color: #777;
+  border-radius: 4px;
+}
+
+/* Track styling for Firefox */
+.zoom-slider::-moz-range-track, .rotation-slider::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  background-color: #777;
+  border-radius: 4px;
+}
+
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 500px;
+  margin-top: 30px;
+}
+
+.cancel-btn, .done-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.cancel-btn {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.done-btn {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.cancel-btn:hover {
+  opacity: 0.9;
+}
+
+.done-btn:hover {
+  opacity: 0.9;
+}
+
+/* For small screens */
+@media (max-width: 600px) {
+  .cropper-container {
+    height: 50vh;
+  }
+}

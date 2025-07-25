@@ -87,5 +87,6 @@
   border: none;
   border-radius: 6px;
   margin-top: 14px;
+  z-index: 0;
 }
 

@@ -70,6 +70,8 @@ const PopularMangaPage = () => {
                   title={manga.title.english || manga.title.romaji || "Untitled"}
                   image={manga.coverImage.large}
                   className="manga-card"
+                  id={manga.id} // 🔥 this is essential
+                  type="manga"
                 />
               </Link>
             ))}

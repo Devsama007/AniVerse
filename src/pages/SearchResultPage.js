@@ -54,14 +54,16 @@ const SearchResultPage = () => {
       </h2>
       <div className="search-grid">
         {animeList.map((anime, idx) => (
-            <Link to={`/anime/${anime.id}`} className="card-link">
-              <Card
-                index={idx + 1}
-                title={anime.title.english || anime.title.romaji}
-                image={anime.coverImage.large}
-                className="grid-glow"
-              />
-            </Link>
+          <Link to={`/anime/${anime.id}`} className="card-link">
+            <Card
+              index={idx + 1}
+              title={anime.title.english || anime.title.romaji}
+              image={anime.coverImage.large}
+              className="grid-glow"
+              id={anime.id} // 🔥 this is essential
+              type="anime"
+            />
+          </Link>
         ))}
       </div>
 

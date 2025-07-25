@@ -19,6 +19,9 @@ app.use("/api/auth", authRoutes);
 const userRoutes = require("./routes/userRoutes");
 app.use("/api/user", userRoutes);
 
+//User History
+console.log("Registering route: /api/user/history");
+app.use("/api/user", require("./routes/historyRoutes"));
 
 // Serve static files from uploads/
 const path = require("path");

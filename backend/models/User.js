@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   profilePic: {
     type: String,
-    default: "", // Add default image URL if you want
+    default: "",
   },
   bannerImage: {
     type: String,
@@ -31,7 +31,21 @@ const userSchema = new mongoose.Schema({
   profileText: {
     type: String,
     default: "",
-  }
+  },
+  animeHistory: [
+    {
+      id: String,
+      title: String,
+      image: String,
+    }
+  ],
+  mangaHistory: [
+    {
+      id: String,
+      title: String,
+      image: String,
+    }
+  ]
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);

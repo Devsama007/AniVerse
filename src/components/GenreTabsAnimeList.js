@@ -77,35 +77,37 @@ const GenreTabsAnimeList = ({ selectedGenre }) => {
           <div className="genre-grid">
             {animeList.map((anime, idx) => (
 
-            <Link to={`/anime/${anime.id}`} className="card-link">
-              <Card
-                key={anime.id || idx}
-                index={(currentPage - 1) * 35 + idx + 1}
-                title={anime.title.english || anime.title.romaji}
-                image={anime.coverImage.large}
-                className="genre-glow"
-              />
-            </Link>
+              <Link to={`/anime/${anime.id}`} className="card-link">
+                <Card
+                  key={anime.id || idx}
+                  index={(currentPage - 1) * 35 + idx + 1}
+                  title={anime.title.english || anime.title.romaji}
+                  image={anime.coverImage.large}
+                  className="genre-glow"
+                  id={anime.id} // 🔥 this is essential
+                  type="anime"
+                />
+              </Link>
 
             ))}
-          </div> 
+          </div>
 
-              {/* Pagination Controls */}
-      <div className="genre-pagination">
-        <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-        >
-          ‹ Previous
-        </button>
+          {/* Pagination Controls */}
+          <div className="genre-pagination">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              ‹ Previous
+            </button>
 
-        <span className="page-number">Page {currentPage}</span>
+            <span className="page-number">Page {currentPage}</span>
 
-        <button onClick={() => setCurrentPage((prev) => prev + 1)}>
-          Next ›
-        </button>
-      </div>
-    </>
+            <button onClick={() => setCurrentPage((prev) => prev + 1)}>
+              Next ›
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

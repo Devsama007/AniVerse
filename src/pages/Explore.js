@@ -126,6 +126,8 @@ const Explore = () => {
                   title={anime.title.english || anime.title.romaji}
                   image={anime.coverImage.large}
                   className="explore-glow"
+                  id={anime.id} // 🔥 this is essential
+                  type="anime"
                 />
               </Link>
 

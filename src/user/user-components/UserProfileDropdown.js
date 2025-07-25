@@ -6,10 +6,16 @@ import dummyAvatar from "../../assets/nao-tomori.png";
 const UserProfileDropdown = ({ user, onLogout }) => {
     const navigate = useNavigate();
 
+    const handleLogoutClick = () => {
+        onLogout();            // Clear tokens, user data, etc.
+        navigate("/");         // Then redirect to homepage
+    };
+
     // Build full image path with fallback
     const avatarSrc = user?.profilePic
         ? `${user.profilePic}?t=${Date.now()}` // No leading slash
         : dummyAvatar;
+
 
     return (
         <div className="profile-dropdown">
@@ -27,7 +33,7 @@ const UserProfileDropdown = ({ user, onLogout }) => {
 
             <div className="profile-actions">
                 <button onClick={() => navigate("/profile")}>Custom Profile</button>
-                <button onClick={onLogout}>Logout</button>
+                <button onClick={handleLogoutClick}>Logout</button>
             </div>
         </div>
     );

@@ -2,6 +2,7 @@
 const path = require("path");
 const User = require("../models/User");
 
+// Update profile or banner image
 const updateUserImage = async (req, res) => {
   const userId = req.user.id;
   const type = req.body.type; // 'profilePic' or 'bannerImage'
@@ -12,7 +13,6 @@ const updateUserImage = async (req, res) => {
   }
 
   try {
-    // Build image URL based on uploaded file
     const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
 
     const updatedUser = await User.findByIdAndUpdate(
@@ -28,5 +28,33 @@ const updateUserImage = async (req, res) => {
   }
 };
 
-module.exports = { updateUserImage };
+// ✅ Update user bio (profileText)
+const updateUserBio = async (req, res) => {
+  const userId = req.user.id;
+  const { profileText } = req.body;
+
+  if (!profileText || typeof profileText !== "string") {
+    return res.status(400).json({ message: "Bio must be a valid string." });
+  }
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { profileText },
+      { new: true }
+    );
+
+    res.json({ user: updatedUser });
+  } catch (err) {
+    console.error("❌ Error updating bio:", err.message, err.stack);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = {
+  updateUserImage,
+  updateUserBio, 
+};
+
+
 

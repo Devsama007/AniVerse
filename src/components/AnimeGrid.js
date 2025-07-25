@@ -31,11 +31,12 @@ const GRID_SECTIONS = [
   },
 ];
 
+
 const AnimeGrid = () => {
   const [gridData, setGridData] = useState({});
 
   const fetchGridSection = async (section) => {
-  const query = `
+    const query = `
   query ($sort: [MediaSort], $status: MediaStatus) {
     Page(perPage: 5) {
       media(sort: $sort, status: $status, type: ANIME) {
@@ -90,42 +91,44 @@ const AnimeGrid = () => {
     initFetch();
   }, []);
 
-return (
-  <div className="anime-grid">
-    {GRID_SECTIONS.map((section) => (
-      <div key={section.title} className="grid-section">
-        <h3 className="section-title">{section.title}</h3>
-        <div className="card-column">
-          {gridData[section.title]?.map((anime, idx) => (
-            <div key={anime.id + section.title} className="card-with-meta">
+  return (
+    <div className="anime-grid">
+      {GRID_SECTIONS.map((section) => (
+        <div key={section.title} className="grid-section">
+          <h3 className="section-title">{section.title}</h3>
+          <div className="card-column">
+            {gridData[section.title]?.map((anime, idx) => (
+              <div key={anime.id + section.title} className="card-with-meta">
 
-            <Link to={`/anime/${anime.id}`} className="card-link">
-              <Card
-                index={idx + 1}
-                title={anime.title.english || anime.title.romaji}
-                image={anime.coverImage.large}
-                className="grid-glow"
-              />
-            </Link>
+                <Link to={`/anime/${anime.id}`} className="card-link">
+                  <Card
+                    index={idx + 1}
+                    title={anime.title.english || anime.title.romaji}
+                    image={anime.coverImage.large}
+                    className="grid-glow"
+                    id={anime.id} // 🔥 this is essential
+                    type="anime"
+                  />
+                </Link>
 
-              <div className="meta-info">
-                <span className="meta-tag green">📺 {anime.episodes ?? "?"}</span>
-                <span className="meta-tag pink">❤️ {anime.favourites ?? "?"}</span>
-                <span className="meta-tag grey">🔥 {anime.popularity ?? "?"}</span>
-                <span className="meta-tag format">{anime.format ?? "?"}</span>
+                <div className="meta-info">
+                  <span className="meta-tag green">📺 {anime.episodes ?? "?"}</span>
+                  <span className="meta-tag pink">❤️ {anime.favourites ?? "?"}</span>
+                  <span className="meta-tag grey">🔥 {anime.popularity ?? "?"}</span>
+                  <span className="meta-tag format">{anime.format ?? "?"}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="view-more-container">
+            <Link to={`/explore/${section.path}`} className="view-more">
+              View more →
+            </Link>
+          </div>
         </div>
-        <div className="view-more-container">
-          <Link to={`/explore/${section.path}`} className="view-more">
-            View more →
-          </Link>
-        </div>
-      </div>
-    ))}
-  </div>
-);
+      ))}
+    </div>
+  );
 
 };
 

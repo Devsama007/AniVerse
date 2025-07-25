@@ -73,6 +73,8 @@ const Movies = () => {
                   title={anime.title.english || anime.title.romaji}
                   image={anime.coverImage.large}
                   className="movies-glow"
+                  id={anime.id} // 🔥 this is essential
+                  type="anime"
                 />
               </Link>
             ))}
