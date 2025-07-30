@@ -2,7 +2,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const cron = require("node-cron");
+const path = require("path");
 require("dotenv").config();
+
+// Weekly digest
+const { sendWeeklyDigest } = require("./controllers/newsLetterController");
 
 // dotenv.config();
 const app = express();
@@ -24,10 +29,17 @@ console.log("Registering route: /api/user/history");
 app.use("/api/user", require("./routes/historyRoutes"));
 
 // Serve static files from uploads/
-const path = require("path");
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
+// Test Digest Trigger Route
+app.use("/api/test", require("./routes/testRoutes"));
+
+
+// Watch List Routes, adding Anime and Manga
+const watchListRoutes = require("./routes/watchListRoutes");
+app.use("/api/watchlist", watchListRoutes);
 
 // MongoDB connection
 mongoose
@@ -37,6 +49,14 @@ mongoose
   })
   .then(() => console.log("✅ Connected to MongoDB Atlas"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
+
+// Weekly Digest Cron Job - Every Monday 10:00 AM IST
+cron.schedule("0 10 * * 1", async () => {
+  console.log("📬 Sending weekly digest emails...");
+  await sendWeeklyDigest();
+}, {
+  timezone: "Asia/Kolkata",
+});
 
 // Start the server
 const PORT = process.env.PORT || 5000;
