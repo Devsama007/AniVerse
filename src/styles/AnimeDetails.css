@@ -45,13 +45,13 @@ body {
   z-index: -1;
   border-radius: 12px;
   background: linear-gradient(45deg, #ff0000,
-    #48ff00,
-    #f0f00a,
-    #00ffd5,
-    #002bff,
-    #7a00ff,
-    #ff00c8,
-    #ff0000);
+      #48ff00,
+      #f0f00a,
+      #00ffd5,
+      #002bff,
+      #7a00ff,
+      #ff00c8,
+      #ff0000);
   background-size: 400% 400%;
   animation: glow 8s linear infinite;
   filter: blur(8px);
@@ -59,9 +59,17 @@ body {
 }
 
 @keyframes glow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 
@@ -74,16 +82,22 @@ body {
 }
 
 .anime-info h1 {
-  background: linear-gradient(
-    to left,
-    #f5d76e 0%,      /* light gold */
-    #f4c542 20%,     /* deeper gold */
-    #d4af37 40%,     /* royal gold */
-    #f6e27f 50%,     /* champagne yellow highlight */
-    #c49102 60%,     /* antique gold (adds depth) */
-    #f2c94c 80%,     /* golden amber */
-    #f5d76e 100%     /* light gold again */
-  );
+  background: linear-gradient(to left,
+      #f5d76e 0%,
+      /* light gold */
+      #f4c542 20%,
+      /* deeper gold */
+      #d4af37 40%,
+      /* royal gold */
+      #f6e27f 50%,
+      /* champagne yellow highlight */
+      #c49102 60%,
+      /* antique gold (adds depth) */
+      #f2c94c 80%,
+      /* golden amber */
+      #f5d76e 100%
+      /* light gold again */
+    );
   background-size: 250% auto;
   background-clip: text;
   -webkit-background-clip: text;
@@ -100,8 +114,13 @@ body {
 /* Slow sliding shimmer animations */
 
 @keyframes goldSlide {
-  0% { background-position: -100% 0; }
-  100% { background-position: 100% 0; }
+  0% {
+    background-position: -100% 0;
+  }
+
+  100% {
+    background-position: 100% 0;
+  }
 }
 
 .anime-tags {
@@ -125,7 +144,8 @@ body {
 }
 
 .watch-now,
-.add-list {
+.add-list,
+.add-list-remove {
   padding: 10px 20px;
   border: none;
   font-weight: bold;
@@ -138,10 +158,35 @@ body {
   color: black;
 }
 
-.add-list {
+.watch-now:hover {
+  background-color: #1dca0d;
+  color: white;
+}
+
+.add-list{
   background-color: #333;
   color: #facc15;
 }
+
+.add-list-remove {
+  background-color: #333;
+  color: #facc15;
+}
+
+.add-list:hover {
+  background-color: #e91e63;
+  color: black;
+}
+
+.add-list-remove:hover {
+  background-color: #e91e63;
+  color: black;
+}
+
+/* .add-list.remove:hover{
+  background-color: white;
+  color: black;
+} */
 
 .anime-description {
   font-size: 14px;
@@ -334,8 +379,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;         
-  background-color: #0b0b0b; 
+  min-height: 100vh;
+  background-color: #0b0b0b;
   padding: 0;
   margin: 0;
 }

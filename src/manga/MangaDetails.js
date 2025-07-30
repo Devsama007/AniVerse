@@ -4,14 +4,15 @@ import "./manga-styles/MangaDetails.css";
 import { Link } from "react-router-dom";
 import loadingGif from "../assets/rikka-takanashi.gif";
 import errorPng from "../assets/nao-tomori.png";
+import axios from "axios";
 
 const MangaDetails = () => {
   const { id, title } = useParams();
   const [manga, setManga] = useState(null);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  const query = `
+  useEffect(() => {
+    const query = `
     query ($search: String, $id: Int) {
       Media(id: $id, search: $search, type: MANGA) {
         id
@@ -66,31 +67,128 @@ useEffect(() => {
     }
   `;
 
-  const fetchData = async () => {
-    setLoading(true);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const variables = id
+          ? { id: parseInt(id) }
+          : { search: decodeURIComponent(title) };
+
+        const res = await fetch("https://graphql.anilist.co", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query, variables }),
+        });
+
+        const json = await res.json();
+        setManga(json.data.Media);
+      } catch (err) {
+        console.error("Error fetching manga details:", err);
+      } finally {
+        setTimeout(() => setLoading(false), 500);
+      }
+    };
+
+    fetchData();
+  }, [id, title]);
+
+
+
+  // ========Handle Manga List=========
+  const [inWatchlist, setInWatchlist] = useState(false);
+  const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    const fetchWatchlist = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:5000/api/watchlist/${userId}`);
+        const exists = data.some((item) => item.itemId === manga?.id.toString());
+        setInWatchlist(exists);
+      } catch (error) {
+        console.error("Error fetching watchlist:", error);
+      }
+    };
+
+    if (manga && userId) {
+      fetchWatchlist();
+    }
+  }, [manga, userId]);
+
+
+  const handleAddToWatchlist = async () => {
     try {
-      const variables = id
-        ? { id: parseInt(id) }
-        : { search: decodeURIComponent(title) };
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      const userId = user._id;
 
-      const res = await fetch("https://graphql.anilist.co", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, variables }),
-      });
+      if (!token || !userId) {
+        console.error("User not authenticated.");
+        alert("Please log in to add to watchlist.");
+        return;
+      }
 
-      const json = await res.json();
-      setManga(json.data.Media);
-    } catch (err) {
-      console.error("Error fetching manga details:", err);
-    } finally {
-      setTimeout(() => setLoading(false), 500);
+      const item = {
+        id: manga.id.toString(),
+        title: manga.title.english || manga.title.romaji || "Untitled",
+        image: manga.coverImage?.large || "",
+      };
+
+      const { data } = await axios.post(
+        "http://localhost:5000/api/watchlist/add",
+        {
+          userId,
+          item,
+          type: "manga",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(data.message);
+      setInWatchlist(true);
+    } catch (error) {
+      console.error("Error adding to watchlist:", error);
+      alert("Failed to add to watchlist.");
     }
   };
 
-  fetchData();
-}, [id, title]); 
 
+  const handleRemoveFromWatchlist = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      const userId = user._id;
+
+      if (!token || !userId) {
+        console.error("User not authenticated.");
+        alert("Please log in to remove from watchlist.");
+        return;
+      }
+
+      const { data } = await axios.post(
+        "http://localhost:5000/api/user/remove-from-watchlist",
+        {
+          userId,
+          itemId: manga.id.toString(),
+          type: "manga",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(data.message);
+      setInWatchlist(false);
+    } catch (error) {
+      console.error("Error removing from watchlist:", error);
+      alert("Failed to remove from watchlist.");
+    }
+  };
 
 
   if (loading) return <div className="loading-container">
@@ -138,7 +236,21 @@ useEffect(() => {
               <button className="read-btn">Read Now</button>
             </Link>
 
-            <button>Add to Watchlist</button>
+            {inWatchlist ? (
+              <button
+                className="add-list remove"
+                onClick={handleRemoveFromWatchlist}
+              >
+                − Remove from List
+              </button>
+            ) : (
+              <button
+                className="add-list"
+                onClick={handleAddToWatchlist}
+              >
+                ＋ Add to List
+              </button>
+            )}
           </div>
           <p className="manga-description">{manga.description?.replace(/<[^>]+>/g, '')}</p>
         </div>

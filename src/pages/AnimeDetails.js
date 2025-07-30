@@ -11,6 +11,7 @@ import banner8 from "../assets/banner8.png";
 import "../styles/AnimeDetails.css";
 import { Link } from "react-router-dom";
 import loadingGif from "../assets/rikka-takanashi.gif";
+import axios from "axios";
 
 const AnimeDetails = () => {
   const { id } = useParams();
@@ -114,10 +115,120 @@ const AnimeDetails = () => {
     fetchAnimeDetails();
   }, [id]);
 
+
+  // ========Handle Watch List=========
+  const [inWatchlist, setInWatchlist] = useState(false);
+  const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    const fetchWatchlist = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:5000/api/watchlist/${userId}`);
+        const exists = data.some((item) => item.itemId === anime?.id.toString());
+        setInWatchlist(exists);
+      } catch (error) {
+        console.error("Error fetching watchlist:", error);
+      }
+    };
+
+    if (anime && userId) {
+      fetchWatchlist();
+    }
+  }, [anime, userId]);
+
+  const handleAddToWatchlist = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      const userId = user._id;
+
+      if (!token || !userId) {
+        console.error("User not authenticated.");
+        alert("Please log in to add to watchlist.");
+        return;
+      }
+
+      const item = {
+        id: anime.id.toString(),
+        title: anime.title.english || anime.title.romaji || "Untitled",
+        image: anime.coverImage?.large || "",
+      };
+
+      const { data } = await axios.post(
+        "http://localhost:5000/api/watchlist/add",
+        {
+          userId,
+          item,
+          type: "anime",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(data.message);
+      setInWatchlist(true);
+    } catch (error) {
+      console.error("Error adding to watchlist:", error);
+      alert("Failed to add to watchlist.");
+    }
+  };
+
+
+
+  const handleRemoveFromWatchlist = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      const userId = user._id;
+
+      if (!token || !userId) {
+        console.error("User not authenticated.");
+        alert("Please log in to remove from watchlist.");
+        return;
+      }
+
+      const { data } = await axios.post(
+        "http://localhost:5000/api/user/remove-from-watchlist",
+        {
+          userId,
+          itemId: anime.id.toString(),
+          type: "anime",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(data.message);
+      setInWatchlist(false);
+    } catch (error) {
+      console.error("Error removing from watchlist:", error);
+      alert("Failed to remove from watchlist.");
+    }
+  };
+
+
+  // const toggleWatchlist = async () => {
+  //   if (inWatchlist) {
+  //     await handleRemoveFromWatchlist();
+  //   } else {
+  //     await handleAddToWatchlist();
+  //   }
+  // };
+
+
+
   if (!anime) return <div className="loading-container">
-          <img src={loadingGif} alt="Loading..." className="loading-gif" />
-          <p>Loading Please Wait...</p>
-        </div>;
+    <img src={loadingGif} alt="Loading..." className="loading-gif" />
+    <p>Loading Please Wait...</p>
+  </div>;
+
+
 
   return (
     <div className="anime-details-container">
@@ -140,8 +251,23 @@ const AnimeDetails = () => {
             </div>
             <div className="anime-buttons">
               <button className="watch-now">▶ Watch now</button>
-              <button className="add-list">＋ Add to List</button>
+              {inWatchlist ? (
+                <button
+                  className="add-list-remove"
+                  onClick={handleRemoveFromWatchlist}
+                >
+                  − Remove from List
+                </button>
+              ) : (
+                <button
+                  className="add-list"
+                  onClick={handleAddToWatchlist}
+                >
+                  ＋ Add to List
+                </button>
+              )}
             </div>
+
             <p className="anime-description" dangerouslySetInnerHTML={{ __html: anime.description }} />
           </div>
         </div>

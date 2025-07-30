@@ -5,7 +5,8 @@ import Explore from "./pages/Explore";
 import AnimeDetails from "./pages/AnimeDetails";
 import GenreAnimePage from "./pages/GenreAnimePage";
 import SearchResultPage from "./pages/SearchResultPage";
-import Movies from "./pages/Movies"
+import Movies from "./pages/Movies";
+import WatchList from "./pages/WatchList";
 
 //Manga section
 import MangaMainPage from "./manga/MangaMainPage";
@@ -27,6 +28,7 @@ function AppRoutes() {
       <Route path="/genre/:genreName" element={<GenreAnimePage />} />
       <Route path="/search/:searchQuery" element={<SearchResultPage />} />
       <Route path="/movies" element={<Movies />} />
+      <Route path="/watchlist" element={<WatchList />} />
 
       {/* Manga section */}
       <Route path="/manga" element={<MangaMainPage />} />

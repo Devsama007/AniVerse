@@ -100,7 +100,7 @@ const Navbar = () => {
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/movies">Movies</Link></li>
-            <li><Link to="/">Watchlist</Link></li>
+            <li><Link to="/watchlist">Watchlist</Link></li>
             <li><Link to="/manga">Manga</Link></li>
           </ul>
         </div>

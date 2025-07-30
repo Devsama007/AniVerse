@@ -13,7 +13,8 @@ body {
   height: 320px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center center; /* 👈 centers the image properly */
+  background-position: center center;
+  /* 👈 centers the image properly */
   margin-bottom: 30px;
   opacity: 0.9;
   border-radius: 4px;
@@ -43,13 +44,13 @@ body {
   z-index: -1;
   border-radius: 12px;
   background: linear-gradient(45deg, #ff0000,
-    #48ff00,
-    #f0f00a,
-    #00ffd5,
-    #002bff,
-    #7a00ff,
-    #ff00c8,
-    #ff0000);
+      #48ff00,
+      #f0f00a,
+      #00ffd5,
+      #002bff,
+      #7a00ff,
+      #ff00c8,
+      #ff0000);
   background-size: 400% 400%;
   animation: glow 8s linear infinite;
   filter: blur(8px);
@@ -57,9 +58,17 @@ body {
 }
 
 @keyframes glow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .manga-info {
@@ -85,8 +94,13 @@ body {
 }
 
 @keyframes goldSlide {
-  0% { background-position: -100% 0; }
-  100% { background-position: 100% 0; }
+  0% {
+    background-position: -100% 0;
+  }
+
+  100% {
+    background-position: 100% 0;
+  }
 }
 
 .manga-buttons {
@@ -107,13 +121,20 @@ body {
   color: #facc15;
 }
 
+.manga-buttons button:last-child:hover {
+  background-color: #e91e63;
+  color: black;
+}
+
 .manga-buttons button:first-child {
   background-color: gold;
   color: black;
 }
 
 .manga-buttons button:first-child:hover {
-  background-color: #ddae1f;
+  background-color: #1dca0d;
+  color: white;
+
 }
 
 .manga-description {
@@ -189,9 +210,11 @@ body {
   transition: transform 0.3s;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* 👈 Ensures content stays toward the top */
+  justify-content: flex-start;
+  /* 👈 Ensures content stays toward the top */
   align-items: center;
-  height: 280px; /* You can tweak this */
+  height: 280px;
+  /* You can tweak this */
 }
 
 /* .manga-relation-card:hover,
@@ -219,7 +242,7 @@ body {
 .manga-character-card p {
   font-size: 14px;
   font-weight: bold;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
   padding-top: 4px;
   color: #eee;
 }
@@ -229,8 +252,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;         
-  background-color: #0b0b0b; 
+  min-height: 100vh;
+  background-color: #0b0b0b;
   padding: 0;
   margin: 0;
 }
@@ -254,8 +277,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;         
-  background-color: #0b0b0b; 
+  min-height: 100vh;
+  background-color: #0b0b0b;
   padding: 0;
   margin: 0;
 }
