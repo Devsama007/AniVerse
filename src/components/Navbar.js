@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import "./../styles/Navbar.css";
 import logo from "../assets/logo icon.png";
 import SearchBar from "../components/navbar components/SearchBar.js";
@@ -9,88 +10,39 @@ import dummyAvatar from "../assets/nao-tomori.png";
 
 const Navbar = () => {
   const [showLogin, setShowLogin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [currentUser, setCurrentUser] = useState(() => {
-    const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : {
-      username: "Guest",
-      email: "guest@example.com",
-      profilePic: dummyAvatar
-    };
-  });
+  const dropdownRef = useRef(null);
+  const avatarRef = useRef(null); // Optional: to avoid closing on avatar click
 
-  const dropdownRef = useRef();
-
-  useEffect(() => {
-    // Function to parse and set user data from storage
-    const updateCurrentUserFromStorage = () => {
-      const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
-      setCurrentUser(storedUser ? JSON.parse(storedUser) : {
-        username: "Guest",
-        email: "guest@example.com",
-        profilePic: dummyAvatar
-      });
-    };
-
-    // Initial load
-    updateCurrentUserFromStorage();
-
-    // 🎯 Listen for the custom 'userUpdated' event from Profile.js (or any other component)
-    window.addEventListener("userUpdated", updateCurrentUserFromStorage);
-
-    // Listen for native 'storage' event for cross-tab/window updates
-    window.addEventListener('storage', updateCurrentUserFromStorage);
-
-    // Click outside handler for dropdown
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setShowDropdown(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      window.removeEventListener("userUpdated", updateCurrentUserFromStorage); // 🎯 Cleanup custom event listener
-      window.removeEventListener('storage', updateCurrentUserFromStorage); // Cleanup native storage event listener
-    };
-  }, []);
+  const { user, isAuthenticated, logout } = useContext(AuthContext);
 
   const handleLoginClick = () => setShowLogin(true);
-
-  const handleCloseModal = (loginSuccess) => {
-    setShowLogin(false);
-    if (loginSuccess) {
-      setIsLoggedIn(true);
-      // Ensure user state is updated after successful login
-      const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
-      setCurrentUser(storedUser ? JSON.parse(storedUser) : {
-        username: "Guest",
-        email: "guest@example.com",
-        profilePic: dummyAvatar
-      });
-    }
-  };
-
+  const handleCloseModal = () => setShowLogin(false);
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("token");
-    localStorage.removeItem("user"); // Clear the user data
-    sessionStorage.removeItem("user"); // Clear the user data
-
-    setIsLoggedIn(false);
-    setCurrentUser({ // Reset to guest user
-      username: "Guest",
-      email: "guest@example.com",
-      profilePic: dummyAvatar
-    });
+    logout();
     setShowDropdown(false);
   };
 
-  const avatarSrc = currentUser.profilePic?.startsWith("http")
-    ? `${currentUser.profilePic}?t=${Date.now()}`
+  const avatarSrc = user?.profilePic?.startsWith("http")
+    ? `${user.profilePic}?t=${Date.now()}`
     : dummyAvatar;
+
+  // ⛔ Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        avatarRef.current &&
+        !avatarRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <>
@@ -107,22 +59,18 @@ const Navbar = () => {
 
         <div className="navbar-right">
           <SearchBar />
-
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <div className="user-menu" ref={dropdownRef}>
               <div
                 className="user-icon"
                 title="Profile"
+                ref={avatarRef}
                 onClick={() => setShowDropdown((prev) => !prev)}
               >
-                <img
-                  src={avatarSrc}
-                  alt="Avatar"
-                  className="nav-avatar"
-                />
+                <img src={avatarSrc} alt="Avatar" className="nav-avatar" />
               </div>
               {showDropdown && (
-                <UserProfileDropdown user={currentUser} onLogout={handleLogout} />
+                <UserProfileDropdown user={user} onLogout={handleLogout} />
               )}
             </div>
           ) : (
@@ -137,4 +85,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
 

@@ -13,23 +13,81 @@
   margin: 1.5rem 0 1rem;
   border-left: 5px solid #facc15;
   padding-left: 1rem;
+  margin-bottom: 25px;
 }
 
 .anime-list,
 .manga-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 25px;
+  gap: 30px;
 }
 
 .card-link {
   text-decoration: none;
   color: inherit;
   transition: transform 0.2s ease;
+  position: relative;
 }
 
 .card-link:hover {
+  color: black;
+}
+
+.watchlist-card {
+  position: relative;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* .watchlist-card:hover {
   transform: scale(1.03);
+} */
+
+.watchcard:hover {
+  color: black;
+}
+
+.watchlist-card:hover {
+  color: black;
+  transform: scale(1.05);
+}
+
+.watchlist-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    60deg,
+    #ff0000,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  background-size: 300% 300%;
+  filter: blur(10px);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+  animation: glowingBorder 5s linear infinite;
+}
+
+.watchlist-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes glowingBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Optional: Add responsiveness for small screens */
@@ -45,18 +103,27 @@
   }
 }
 
+.menu-button,
+.dropdown-content {
+  pointer-events: auto;
+}
+
 
 /* Card Droapdown */
 .menu-button {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: transparent;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.6);
   border: none;
   font-size: 20px;
   color: white;
   cursor: pointer;
   z-index: 2;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #facc15;
 }
 
 .dropdown-content {
@@ -73,16 +140,12 @@
 .dropdown-content button {
   background: none;
   border: none;
-  color: #f87171;
+  color: red;
   cursor: pointer;
+  font-weight: bold;
 }
 
 
-/* Removing Animation */
-.watchlist-card {
-  position: relative;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
 
 /* Slide-out animation for removing card */
 .slide-out {
@@ -94,6 +157,7 @@
     opacity: 1;
     transform: translateX(0);
   }
+
   to {
     opacity: 0;
     transform: translateX(100%);

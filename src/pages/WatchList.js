@@ -155,6 +155,7 @@ const WatchList = () => {
                     image={anime.cover}
                     id={anime.id}
                     type="anime"
+                    className="watchcard"
                   />
                 </Link>
               </div>
@@ -170,18 +171,54 @@ const WatchList = () => {
       <div className="manga-list">
         {mangaList.length > 0 ? (
           mangaList.map((manga, idx) => (
-            <Link to={`/manga/${manga.id}`} className="card-link" key={manga._id}>
-              <Card
-                index={idx + 1}
-                title={manga.title}
-                image={manga.cover}
-                id={manga.id}
-                type="manga"
-              />
-            </Link>
+            <div className="card-wrapper" style={{ position: "relative" }} key={manga._id}>
+              {/* 3-dot dropdown menu */}
+              <div className="dropdown-menu-wrapper">
+                <button
+                  className="menu-button"
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent navigation
+                    toggleDropdown(manga._id);
+                  }}
+                >
+                  ⋮
+                </button>
+
+                {dropdownVisibleId === manga._id && (
+                  <div className="dropdown-content">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault(); // Prevent navigation
+                        handleRemoveFromWatchlist(manga.id, "manga");
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Card with Link */}
+              <div
+                key={manga.id}
+                className={`watchlist-card ${removingId === manga.id ? 'slide-out' : ''}`}
+              >
+                {/* Card with Link */}
+                <Link to={`/manga/${manga.id}`} className="card-link">
+                  <Card
+                    index={idx + 1}
+                    title={manga.title}
+                    image={manga.cover}
+                    id={manga.id}
+                    type="manga"
+                    className="watchcard"
+                  />
+                </Link>
+              </div>
+            </div>
           ))
         ) : (
-          <p className="empty-message">No manga in watchlist.</p>
+          <p className="empty-message">No anime in watchlist.</p>
         )}
       </div>
     </div>

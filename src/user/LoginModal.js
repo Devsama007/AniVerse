@@ -8,7 +8,6 @@ import ForgotPasswordForm from "./user-components/ForgotPasswordForm";
 const LoginModal = ({ onClose }) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
-  const [loginSuccessful, setLoginSuccessful] = useState(false); // ✅ New state
 
   const switchToRegister = () => setIsRegistering(true);
   const switchToLogin = () => {
@@ -20,10 +19,7 @@ const LoginModal = ({ onClose }) => {
     setIsForgotPassword(true);
   };
 
-  // ✅ Close modal and pass correct success state
-  const handleBackdropClose = () => {
-    onClose(loginSuccessful); // Will only be true if LoginForm sets it
-  };
+  const handleBackdropClose = () => onClose(false); // false: login not successful
 
   return (
     <div className="login-modal-backdrop" onClick={handleBackdropClose}>
@@ -36,10 +32,7 @@ const LoginModal = ({ onClose }) => {
           <ForgotPasswordForm onClose={handleBackdropClose} switchToLogin={switchToLogin} />
         ) : (
           <LoginForm
-            onClose={() => {
-              setLoginSuccessful(true);   // ✅ Set success
-              onClose(true);              // ✅ Then close
-            }}
+            onSuccess={() => onClose(true)} // ✅ Trigger parent only when login succeeds
             switchToRegister={switchToRegister}
             switchToForgotPassword={switchToForgotPassword}
           />
@@ -50,4 +43,3 @@ const LoginModal = ({ onClose }) => {
 };
 
 export default LoginModal;
-

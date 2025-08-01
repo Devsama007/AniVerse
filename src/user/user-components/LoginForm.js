@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import "../user-styles/LoginForm.css";
 import captcha from "../../assets/recaptcha.png";
 import videoBg from "../../assets/your name.mp4";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const LoginForm = ({ onSubmit, switchToRegister, onClose, switchToForgotPassword }) => {
     const [email, setEmail] = useState("");
@@ -10,6 +12,7 @@ const LoginForm = ({ onSubmit, switchToRegister, onClose, switchToForgotPassword
     const [rememberMe, setRememberMe] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const { setIsAuthenticated, setUser } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,12 +38,14 @@ const LoginForm = ({ onSubmit, switchToRegister, onClose, switchToForgotPassword
             const storage = rememberMe ? localStorage : sessionStorage;
             storage.setItem("token", data.token);
             storage.setItem("user", JSON.stringify(data.user));
+
+            setUser(data.user);                 // ✅ update global state
+            setIsAuthenticated(true);          // ✅ update global state
             setIsSuccess(true);
 
-            // ✅ Wait for animation then close the popup
             setTimeout(() => {
                 setIsLoading(false);
-                if (onClose) onClose(); // 👈 closes modal after success
+                if (onClose) onClose();
             }, 1800);
 
         } catch (error) {
