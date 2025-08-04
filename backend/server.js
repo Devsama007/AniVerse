@@ -41,6 +41,12 @@ app.use("/api/test", require("./routes/testRoutes"));
 const watchListRoutes = require("./routes/watchListRoutes");
 app.use("/api/watchlist", watchListRoutes);
 
+
+// ✅ Register AnimePahe Proxy Server
+const proxyRoutes = require("./proxy-server/proxy-server");
+app.use("/api/proxy", proxyRoutes);
+
+
 // MongoDB connection
 mongoose
   .connect(process.env.MONGODB_URI, {

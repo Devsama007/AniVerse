@@ -19,6 +19,13 @@ import MangaView from "./manga/MangaView";
 
 import Profile from "./user/user-components/Profile";
 
+//Anime Stream
+import AnimePage from './animeStream/Frontend/AnimePage';
+import EpisodePlayerPage from './animeStream/Frontend/EpisodePlayerPage';
+
+
+
+
 function AppRoutes() {
   return (
     <Routes>
@@ -33,7 +40,7 @@ function AppRoutes() {
       {/* Manga section */}
       <Route path="/manga" element={<MangaMainPage />} />
       <Route path="/manga/popular" element={<PopularMangaPage />} />
-      <Route path="/manga/:id" element={<MangaDetails />}/>
+      <Route path="/manga/:id" element={<MangaDetails />} />
       <Route path="/manga/search/:searchQuery" element={<MangaSearchResult />} />
       <Route path="/manga/:mangaTitle/read" element={<MangaReaderPage />} />
       <Route path="/manga/:mangaTitle/read/:chapterHid" element={<MangaView />} />
@@ -43,9 +50,13 @@ function AppRoutes() {
       {/* User Profile */}
       <Route path="/profile" element={<Profile />} />
 
+      {/* Anime Stream */}
+      <Route path="/watch/:animeId" element={<AnimePage />} />
+      <Route path="/watch/:animeId/episode/:episodeId" element={<EpisodePlayerPage />} />
+
     </Routes>
-      
-    
+
+
   );
 }
 

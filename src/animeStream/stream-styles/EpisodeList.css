@@ -1,0 +1,44 @@
+.episode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.episode-card {
+  position: relative;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.episode-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.episode-overlay {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 5px #000;
+}
+
+.duration,
+.ep-number {
+  margin-top: 4px;
+}
+
+.new-tag {
+  background: red;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  margin-bottom: 4px;
+}

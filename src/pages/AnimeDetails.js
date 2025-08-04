@@ -9,7 +9,7 @@ import banner6 from "../assets/banner6.png";
 import banner7 from "../assets/banner7.png";
 import banner8 from "../assets/banner8.png";
 import "../styles/AnimeDetails.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loadingGif from "../assets/rikka-takanashi.gif";
 import axios from "axios";
 
@@ -220,7 +220,11 @@ const AnimeDetails = () => {
   //     await handleAddToWatchlist();
   //   }
   // };
+  const navigate = useNavigate();
 
+  const handleWatchNow = () => {
+    navigate(`/watch/${anime.id}`);
+  };
 
 
   if (!anime) return <div className="loading-container">
@@ -250,7 +254,7 @@ const AnimeDetails = () => {
               <span>⭐ {anime.averageScore}</span>
             </div>
             <div className="anime-buttons">
-              <button className="watch-now">▶ Watch now</button>
+              <button className="watch-now" onClick={handleWatchNow}>Watch Now</button>
               {inWatchlist ? (
                 <button
                   className="add-list-remove"
